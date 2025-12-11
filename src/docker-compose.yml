@@ -1,0 +1,25 @@
+version: '2.2'
+
+services:
+
+  interview-localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - DEFAULT_REGION=us-east-1
+      - SERVICES=sqs
+      - DEBUG=${DEBUG- }
+      - DATA_DIR=${DATA_DIR- }
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  etl-postgres:
+      image: postgres:15
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: mypassword
+        POSTGRES_DB: etl_db
+      ports:
+        - "5432:5432"
